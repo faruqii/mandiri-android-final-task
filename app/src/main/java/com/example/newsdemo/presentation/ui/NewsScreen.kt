@@ -17,6 +17,11 @@ import coil.compose.rememberAsyncImagePainter
 import com.example.newsdemo.data.model.Article
 import com.example.newsdemo.presentation.viewmodel.NewsViewModel
 import androidx.compose.foundation.Image
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 
 @Composable
 fun NewsScreen(
@@ -24,14 +29,19 @@ fun NewsScreen(
     appName: String // Added parameter for app name
 ) {
     val articles by viewModel.articles.collectAsState()
+    val selectedArticle = remember { mutableStateOf<Article?>(null) }
 
     Surface(color = MaterialTheme.colorScheme.background) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
                 text = appName,
-                style = MaterialTheme.typography.headlineSmall,
-                modifier = Modifier.padding(bottom = 16.dp)
+                style = MaterialTheme.typography.headlineLarge,
+                modifier = Modifier
+                    .padding(bottom = 16.dp)
+                    .fillMaxWidth()
+                    .wrapContentWidth(align = Alignment.CenterHorizontally)
             )
+
 
             // Display the latest article with a larger image
             articles.firstOrNull()?.let { latestArticle ->
@@ -40,7 +50,9 @@ fun NewsScreen(
                     style = MaterialTheme.typography.headlineMedium,
                     modifier = Modifier.padding(bottom = 8.dp)
                 )
-                LatestNewsCard(latestArticle)
+                LatestNewsCard(latestArticle) {
+                    selectedArticle.value = latestArticle // Update the selectedArticle value
+                }
                 Spacer(modifier = Modifier.height(16.dp))
             }
 
@@ -52,17 +64,25 @@ fun NewsScreen(
             )
             LazyColumn {
                 items(articles.drop(1)) { article ->
-                    ArticleCard(article = article, onClick = { /* Navigate to detail screen */ })
+                    ArticleCard(article = article) {
+                        selectedArticle.value = article // Update the selectedArticle value
+                    }
                     Spacer(modifier = Modifier.height(16.dp))
                 }
+            }
+
+            // Display article detail if selected
+            selectedArticle.value?.let { article ->
+                ArticleDetail(article)
             }
         }
     }
 }
 
+
 @Composable
-fun LatestNewsCard(article: Article) {
-    Card(modifier = Modifier.fillMaxWidth().clickable(onClick = { /* Navigate to detail screen */ })) {
+fun LatestNewsCard(article: Article, onClick: () -> Unit) {
+    Card(modifier = Modifier.fillMaxWidth().clickable(onClick = onClick)) {
         Column(modifier = Modifier.padding(16.dp)) {
             Image(
                 painter = rememberAsyncImagePainter(article.urlToImage),
@@ -70,10 +90,24 @@ fun LatestNewsCard(article: Article) {
                 modifier = Modifier.fillMaxWidth().height(200.dp) // Adjust size as needed
             )
             Spacer(modifier = Modifier.height(16.dp))
-            Text(text = article.title, style = MaterialTheme.typography.titleLarge)
+            Text(
+                text = article.title,
+                style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold)
+            )
             Spacer(modifier = Modifier.height(8.dp))
-            Text(text = article.source.name, style = MaterialTheme.typography.bodyLarge)
-            Text(text = article.publishedAt, style = MaterialTheme.typography.bodyLarge)
+            Row(modifier = Modifier.fillMaxWidth()) {
+                Text(
+                    text = article.source.name,
+                    style = MaterialTheme.typography.bodyMedium,
+                    modifier = Modifier.weight(1f) // Occupy the left side
+                )
+                Text(
+                    text = article.publishedAt,
+                    style = MaterialTheme.typography.bodyMedium,
+                    modifier = Modifier.weight(1f), // Occupy the right side
+                    textAlign = TextAlign.End // Align to the end (right)
+                )
+            }
         }
     }
 }
@@ -91,12 +125,47 @@ fun ArticleCard(article: Article, onClick: () -> Unit) {
                 Spacer(modifier = Modifier.width(16.dp))
             }
             Column(modifier = Modifier.weight(1f)) {
-                Text(text = article.title, style = MaterialTheme.typography.titleLarge)
+                Text(text = article.title, style = MaterialTheme.typography.titleSmall)
                 Spacer(modifier = Modifier.height(8.dp))
-                Text(text = article.source.name, style = MaterialTheme.typography.bodyLarge)
-                Text(text = article.publishedAt, style = MaterialTheme.typography.bodyLarge)
+                Text(text = article.source.name, style = MaterialTheme.typography.bodySmall)
+                Text(text = article.publishedAt, style = MaterialTheme.typography.bodySmall)
             }
         }
     }
 }
+
+@Composable
+fun ArticleDetail(article: Article) {
+    Column(modifier = Modifier.padding(16.dp)) {
+        Text(
+            text = article.title,
+            style = MaterialTheme.typography.titleLarge,
+            modifier = Modifier.padding(bottom = 8.dp)
+        )
+        Text(
+            text = article.source.name,
+            style = MaterialTheme.typography.bodyMedium,
+            modifier = Modifier.padding(bottom = 4.dp)
+        )
+        Text(
+            text = article.publishedAt, // Format the date as needed
+            style = MaterialTheme.typography.bodyMedium,
+            modifier = Modifier.padding(bottom = 8.dp)
+        )
+        article.urlToImage?.let { urlToImage ->
+            Image(
+                painter = rememberAsyncImagePainter(urlToImage),
+                contentDescription = null,
+                modifier = Modifier.fillMaxWidth().height(200.dp)
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+        }
+        Text(
+            text = article.description ?: "",
+            style = MaterialTheme.typography.bodyMedium
+        )
+    }
+}
+
+
 

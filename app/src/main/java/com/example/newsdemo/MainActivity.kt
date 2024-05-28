@@ -27,7 +27,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             NewsDemoTheme {
                 Surface(color = MaterialTheme.colorScheme.background) {
-                    NewsScreen(newsViewModel, "News")
+                    NewsScreen(newsViewModel, "Kopet News")
                 }
             }
         }
