@@ -3,6 +3,7 @@ package com.example.newsdemo.domain.model
 import java.util.Date
 
 data class Article(
+    val id: String?,
     val source: Source,
     val author: String?,
     val title: String,

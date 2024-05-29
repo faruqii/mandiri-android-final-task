@@ -27,8 +27,8 @@ class NewsViewModel(private val getTopHeadlinesUseCase: GetTopHeadlinesUseCase) 
             call.enqueue(object : Callback<NewsResponse> {
                 override fun onResponse(call: Call<NewsResponse>, response: Response<NewsResponse>) {
                     if (response.isSuccessful) {
-                        response.body()?.articles?.let {
-                            _articles.value = it
+                        response.body()?.articles?.let {articles ->
+                            _articles.value = articles.distinctBy { it.source.id }
                         }
                     }
                 }
@@ -38,5 +38,9 @@ class NewsViewModel(private val getTopHeadlinesUseCase: GetTopHeadlinesUseCase) 
                 }
             })
         }
+    }
+
+    fun getArticleById(articleId: String?): Article? {
+        return articles.value.find { it.source.id == articleId }
     }
 }

@@ -8,14 +8,17 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.compose.rememberNavController
 import com.example.newsdemo.presentation.ui.NewsScreen
 import com.example.newsdemo.presentation.viewmodel.NewsViewModel
 import com.example.newsdemo.domain.usecase.GetTopHeadlinesUseCase
 import com.example.newsdemo.data.repository.NewsRepository
+import com.example.newsdemo.presentation.ui.NewsApp
+import com.example.newsdemo.presentation.ui.NewsNavGraph
 import com.example.newsdemo.presentation.ui.theme.NewsDemoTheme
 
 class MainActivity : ComponentActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -27,12 +30,14 @@ class MainActivity : ComponentActivity() {
         setContent {
             NewsDemoTheme {
                 Surface(color = MaterialTheme.colorScheme.background) {
-                    NewsScreen(newsViewModel, "Kopet News")
+                    val navController = rememberNavController()
+                    NewsNavGraph(navController = navController, viewModel = newsViewModel, appName = "lapet News")
                 }
             }
         }
     }
 }
+
 
 // Create a ViewModelFactory for NewsViewModel
 class NewsViewModelFactory(

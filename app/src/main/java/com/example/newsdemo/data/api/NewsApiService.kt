@@ -11,4 +11,6 @@ interface NewsApiService {
         @Query("apiKey") apiKey: String,
         @Query("country") country: String
     ): Call<NewsResponse>
+
+
 }
