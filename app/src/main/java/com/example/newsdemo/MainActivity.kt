@@ -31,7 +31,7 @@ class MainActivity : ComponentActivity() {
             NewsDemoTheme {
                 Surface(color = MaterialTheme.colorScheme.background) {
                     val navController = rememberNavController()
-                    NewsNavGraph(navController = navController, viewModel = newsViewModel, appName = "lapet News")
+                    NewsNavGraph(navController = navController, viewModel = newsViewModel, appName = "Mandiri News")
                 }
             }
         }
