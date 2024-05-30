@@ -66,7 +66,14 @@ fun NewsScreen(
                         modifier = Modifier.padding(bottom = 8.dp)
                     )
                     LatestNewsCard(latestArticle) {
-                        navController.navigate("article_detail/${latestArticle.source.id}")
+                        Log.d("NewsApp", "Attempting to navigate to article with id: ${latestArticle.source.id}")
+                        latestArticle.source.id?.let { id ->
+                            try {
+                                navController.navigate("article_detail/$id")
+                            } catch (e: Exception) {
+                                Log.e("NewsApp", "Navigation error: ${e.message}")
+                            }
+                        } ?: Log.e("NewsApp", "Article source id is null")
                     }
                     Spacer(modifier = Modifier.height(16.dp))
                 }
@@ -80,7 +87,14 @@ fun NewsScreen(
                 LazyColumn {
                     items(articles.drop(1)) { article ->
                         ArticleCard(article = article) {
-                            navController.navigate("article_detail/${article.source.id}")
+                            Log.d("NewsApp", "Attempting to navigate to article with id: ${article.source.id}")
+                            article.source.id?.let { id ->
+                                try {
+                                    navController.navigate("article_detail/$id")
+                                } catch (e: Exception) {
+                                    Log.e("NewsApp", "Navigation error: ${e.message}")
+                                }
+                            } ?: Log.e("NewsApp", "Article source id is null")
                         }
                         Spacer(modifier = Modifier.height(16.dp))
                     }
@@ -89,6 +103,7 @@ fun NewsScreen(
         }
     }
 }
+
 
 
 @Composable
@@ -222,7 +237,7 @@ fun ArticleDetail(article: Article, modifier: Modifier = Modifier) {
         }
         Text(
             text = article.description ?: "",
-            style = MaterialTheme.typography.bodyLarge
+            style = MaterialTheme.typography.bodyLarge.copy(textAlign = TextAlign.Justify),
         )
     }
 }
