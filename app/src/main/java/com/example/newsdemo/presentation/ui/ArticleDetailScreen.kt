@@ -6,6 +6,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import com.example.newsdemo.presentation.ui.component.CustomTopAppBar
 import com.example.newsdemo.presentation.viewmodel.NewsViewModel
 
 @Composable

@@ -1,20 +1,24 @@
-package com.example.newsdemo.presentation.ui
+package com.example.newsdemo.controller
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.newsdemo.presentation.ui.ArticleDetailScreen
+import com.example.newsdemo.presentation.ui.NewsScreen
 import com.example.newsdemo.presentation.viewmodel.NewsViewModel
 
 @Composable
-fun AppNavigation(viewModel: NewsViewModel) {
-    val navController = rememberNavController()
-    NavHost(navController, startDestination = "news_list") {
-        composable("news_list") {
-            NewsScreen(viewModel, "NewsApp", navController)
+fun NewsNavGraph(
+    navController: NavHostController,
+    viewModel: NewsViewModel,
+    appName: String // Added app name parameter
+) {
+    NavHost(navController = navController, startDestination = "news_screen") {
+        composable("news_screen") {
+            NewsScreen(viewModel = viewModel, appName = appName, navController = navController)
         }
         composable(
             route = "article_detail/{articleId}",
@@ -26,9 +30,10 @@ fun AppNavigation(viewModel: NewsViewModel) {
                     viewModel = viewModel,
                     articleId = articleId,
                     navController = navController,
-                    appName = "NewsApp" // Provide the app name
+                    appName = appName // Pass app name to ArticleDetailScreen
                 )
             }
         }
     }
 }
+

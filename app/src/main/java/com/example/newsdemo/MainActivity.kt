@@ -8,14 +8,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
-import com.example.newsdemo.presentation.ui.NewsScreen
 import com.example.newsdemo.presentation.viewmodel.NewsViewModel
 import com.example.newsdemo.domain.usecase.GetTopHeadlinesUseCase
 import com.example.newsdemo.data.repository.NewsRepository
-import com.example.newsdemo.presentation.ui.NewsApp
-import com.example.newsdemo.presentation.ui.NewsNavGraph
+import com.example.newsdemo.controller.NewsNavGraph
 import com.example.newsdemo.presentation.ui.theme.NewsDemoTheme
 
 class MainActivity : ComponentActivity() {

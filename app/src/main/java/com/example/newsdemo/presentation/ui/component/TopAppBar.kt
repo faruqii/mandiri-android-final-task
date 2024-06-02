@@ -1,4 +1,4 @@
-package com.example.newsdemo.presentation.ui
+package com.example.newsdemo.presentation.ui.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
