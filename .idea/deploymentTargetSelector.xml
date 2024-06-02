@@ -11,6 +11,9 @@
       <SelectionState runConfigName="testArticleDetailDisplaysCorrectly() (1)">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
+      <SelectionState runConfigName="ArticleDetailInstrumentedTest">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
     </selectionStates>
   </component>
 </project>

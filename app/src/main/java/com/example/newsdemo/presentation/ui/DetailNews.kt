@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -30,17 +31,17 @@ fun ArticleDetail(article: Article, modifier: Modifier = Modifier) {
         Text(
             text = article.title,
             style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
-            modifier = Modifier.padding(bottom = 8.dp)
+            modifier = Modifier.padding(bottom = 8.dp).testTag("ArticleTitle")
         )
         Text(
-            text = "Published by: "+ article.source.name,
+            text = "Published by: " + article.source.name,
             style = MaterialTheme.typography.bodyLarge,
-            modifier = Modifier.padding(bottom = 4.dp)
+            modifier = Modifier.padding(bottom = 4.dp).testTag("SourceName")
         )
         Text(
-            text ="Publish Date: "+ displayFormat.format(publishedAt), // Format the date as needed
+            text = "Publish Date: " + displayFormat.format(publishedAt), // Format the date as needed
             style = MaterialTheme.typography.bodyLarge,
-            modifier = Modifier.padding(bottom = 8.dp)
+            modifier = Modifier.padding(bottom = 8.dp).testTag("PublishDate")
         )
         article.urlToImage?.let { urlToImage ->
             Image(
@@ -57,6 +58,7 @@ fun ArticleDetail(article: Article, modifier: Modifier = Modifier) {
         Text(
             text = article.description ?: "",
             style = MaterialTheme.typography.bodyLarge.copy(textAlign = TextAlign.Justify),
+            modifier = Modifier.testTag("ArticleDescription")
         )
     }
 }

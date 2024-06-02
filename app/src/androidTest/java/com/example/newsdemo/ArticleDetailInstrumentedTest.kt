@@ -1,6 +1,8 @@
+package com.example.newsdemo
+
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
-import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.onNodeWithTag
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.newsdemo.data.model.Article
 import com.example.newsdemo.data.model.Source
@@ -32,21 +34,22 @@ class ArticleDetailInstrumentedTest {
         composeTestRule.setContent {
             ArticleDetail(article = mockArticle)
         }
+        composeTestRule.waitForIdle()
 
         // Check if title is displayed
-        composeTestRule.onNodeWithText("Article Title")
+        composeTestRule.onNodeWithTag("ArticleTitle")
             .assertIsDisplayed()
 
         // Check if source name is displayed
-        composeTestRule.onNodeWithText("Source Name")
+        composeTestRule.onNodeWithTag("SourceName")
             .assertIsDisplayed()
 
         // Check if published date is displayed
-        composeTestRule.onNodeWithText("30-05-2024")
+        composeTestRule.onNodeWithTag("PublishDate")
             .assertIsDisplayed()
 
         // Check if description is displayed
-        composeTestRule.onNodeWithText("Article Description")
+        composeTestRule.onNodeWithTag("ArticleDescription")
             .assertIsDisplayed()
     }
 }
